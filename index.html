@@ -63,9 +63,46 @@
             transform: translateY(0);
         }
 
+        /* ─── ANNOUNCEMENT BAR ─── */
+        .announce-bar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 110;
+            background: var(--bg-dark);
+            padding: 10px 0;
+            text-align: center;
+            font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.85);
+            letter-spacing: 0.1px;
+            transition: transform 0.3s ease;
+        }
+        .announce-bar a {
+            color: #fff; font-weight: 600;
+            text-decoration: underline;
+            text-decoration-color: var(--accent);
+            text-underline-offset: 3px;
+            transition: color 0.15s;
+        }
+        .announce-bar a:hover { color: var(--accent); }
+        .announce-bar .announce-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            background: var(--accent);
+            border-radius: 100px;
+            font-size: 10px; font-weight: 700; color: #fff;
+            text-transform: uppercase; letter-spacing: 0.8px;
+            margin-right: 8px;
+            vertical-align: 1px;
+        }
+        .announce-bar .announce-close {
+            position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+            background: none; border: none; color: rgba(255,255,255,0.4);
+            font-size: 16px; cursor: pointer; padding: 4px 8px;
+            transition: color 0.15s;
+        }
+        .announce-bar .announce-close:hover { color: #fff; }
+        body.announce-visible { padding-top: 0; }
+
         /* ─── NAV ─── */
         nav {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            position: fixed; top: 40px; left: 0; right: 0; z-index: 100;
             padding: 16px 0;
             transition: all 0.3s ease;
         }
@@ -108,7 +145,7 @@
 
         /* ─── HERO ─── */
         .hero {
-            padding: 160px 0 96px;
+            padding: 200px 0 96px;
             position: relative;
             overflow: hidden;
         }
@@ -136,14 +173,15 @@
         }
         .hero-visual {
             position: absolute;
-            top: 0; right: -100px; bottom: 0;
-            width: 55%;
+            top: 60px; right: -540px;
+            width: 65%;
+            height: 500px;
             pointer-events: none;
         }
         .hero-canvas {
             width: 100%; height: 100%;
-            mask-image: radial-gradient(ellipse 80% 80% at 60% 50%, black 20%, transparent 70%);
-            -webkit-mask-image: radial-gradient(ellipse 80% 80% at 60% 50%, black 20%, transparent 70%);
+            mask-image: radial-gradient(ellipse 85% 85% at 55% 50%, black 25%, transparent 75%);
+            -webkit-mask-image: radial-gradient(ellipse 85% 85% at 55% 50%, black 25%, transparent 75%);
         }
         .hero-eyebrow {
             display: inline-flex; align-items: center; gap: 8px;
@@ -279,32 +317,45 @@
         }
         .logo-img:hover { opacity: 0.7; filter: grayscale(0%); }
 
-        /* ─── TECH STACK ─── */
-        .tech-bar {
-            padding: 48px 0;
+        /* ─── TECH MARQUEE ─── */
+        .marquee-section {
+            padding: 32px 0;
             border-top: 1px solid var(--border-subtle);
-            background: var(--bg);
+            overflow: hidden;
+            max-width: 1120px;
+            margin: 0 auto;
+            position: relative;
+            mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
         }
-        .tech-label {
-            font-size: 10px; font-weight: 700; text-transform: uppercase;
-            letter-spacing: 1.5px; color: var(--text-tertiary);
-            margin-bottom: 10px;
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            animation: marqueeScroll 40s linear infinite;
         }
-        .tech-pills {
-            display: flex; flex-wrap: wrap; gap: 6px;
+        .marquee-track:hover { animation-play-state: paused; }
+        .marquee-inner {
+            display: flex;
+            gap: 32px;
+            padding-right: 32px;
         }
-        .tech-pills span {
-            padding: 5px 14px;
-            background: var(--bg-elevated);
-            border: 1px solid var(--border);
-            border-radius: 100px;
-            font-size: 12px; font-weight: 500;
-            color: var(--text-secondary);
-            transition: all 0.2s;
+        .marquee-item {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 13px; font-weight: 600; color: var(--text-tertiary);
+            white-space: nowrap;
+            transition: color 0.2s;
         }
-        .tech-pills span:hover {
-            border-color: var(--accent);
-            color: var(--accent);
+        .marquee-item:hover { color: var(--text-primary); }
+        .marquee-item img {
+            width: 20px; height: 20px;
+            border-radius: 4px;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+        }
+        .marquee-item:hover img { opacity: 1; }
+        @keyframes marqueeScroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
         }
 
         /* ─── SECTION COMMON ─── */
@@ -453,7 +504,7 @@
             display: flex; flex-direction: column; gap: 6px;
         }
         .smb-tool {
-            display: flex; align-items: center; justify-content: space-between;
+            display: flex; align-items: center; gap: 12px;
             padding: 14px 18px;
             background: var(--bg-elevated);
             border: 1px solid var(--border);
@@ -461,9 +512,15 @@
             transition: all 0.2s;
         }
         .smb-tool:hover { border-color: var(--accent); }
+        .smb-tool-icon {
+            width: 20px; height: 20px;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
         .smb-tool-name {
             font-family: 'Outfit', sans-serif;
             font-size: 14px; font-weight: 600; color: var(--text-primary);
+            flex: 1;
         }
         .smb-tool-tag {
             font-size: 11px; font-weight: 500; color: var(--text-tertiary);
@@ -672,7 +729,7 @@
 
         /* ─── RESPONSIVE ─── */
         @media (max-width: 960px) {
-            .hero { padding: 130px 0 72px; }
+            .hero { padding: 170px 0 72px; }
             .hero-inner { max-width: 100%; }
             .hero-visual { display: none; }
             .metric { border: none; padding: 0; }
@@ -700,10 +757,18 @@
 </head>
 <body>
 
+    <!-- ANNOUNCEMENT BAR -->
+    <div class="announce-bar" id="announceBar">
+        <span class="announce-badge">Now Open</span>
+        Make AI your unfair advantage — 1-on-1 coaching, team enablement &amp; tool setup.
+        <a href="#enablement">Enroll now &rarr;</a>
+        <button class="announce-close" onclick="document.getElementById('announceBar').style.transform='translateY(-100%)';document.getElementById('mainNav').style.top='0px';document.querySelector('.hero').style.paddingTop='160px';" aria-label="Close">&times;</button>
+    </div>
+
     <!-- NAV — floating pill -->
     <nav id="mainNav">
         <div class="nav-pill">
-            <a href="/" class="nav-brand">AISOFT</a>
+            <a href="/" class="nav-brand"><img src="aisoft-logo.jpeg" alt="AISOFT" style="height:28px;vertical-align:middle;margin-right:6px;">AISOFT</a>
             <div class="nav-links">
                 <a href="#about">About</a>
                 <a href="#services">Services</a>
@@ -741,10 +806,11 @@
     <div class="logos">
         <div class="container">
             <div class="logos-row">
-                <img src="shoptelligence.png" alt="Shoptelligence" class="logo-img" style="height:18px">
-                <img src="aquasight.svg" alt="Aquasight" class="logo-img" style="height:22px">
-                <img src="rocket.svg" alt="Rocket Companies" class="logo-img" style="height:24px">
                 <img src="360ofme.png" alt="360ofme" class="logo-img" style="height:20px">
+                <img src="aquasight.svg" alt="Aquasight" class="logo-img" style="height:22px">
+                <img src="logos/dynatrace.png" alt="Dynatrace" class="logo-img" style="height:22px">
+                <img src="rocket.svg" alt="Rocket Companies" class="logo-img" style="height:24px">
+                <img src="shoptelligence.png" alt="Shoptelligence" class="logo-img" style="height:18px">
             </div>
         </div>
     </div>
@@ -770,16 +836,30 @@
         </div>
     </section>
 
-    <!-- TECH STACK -->
-    <div class="tech-bar">
-        <div class="container">
-            <div class="tech-label">Models</div>
-            <div class="tech-pills">
-                <span>GPT-4</span><span>Gemini</span><span>Claude</span><span>Llama</span><span>Nemotron</span><span>Mistral</span>
+    <!-- TECH MARQUEE -->
+    <div class="marquee-section">
+        <div class="marquee-track">
+            <div class="marquee-inner">
+                <span class="marquee-item"><img src="logos/claude.png" alt="Anthropic">Anthropic</span>
+                <span class="marquee-item"><img src="logos/aws.png" alt="AWS">AWS</span>
+                <span class="marquee-item"><img src="logos/databricks.png" alt="Databricks">Databricks</span>
+<span class="marquee-item"><img src="logos/google.png" alt="Google">Google</span>
+                <span class="marquee-item"><img src="logos/meta.png" alt="Meta">Meta</span>
+                <span class="marquee-item"><img src="logos/mistral.png" alt="Mistral">Mistral</span>
+                <span class="marquee-item"><img src="logos/nvidia.png" alt="NVIDIA">NVIDIA</span>
+                <span class="marquee-item"><img src="logos/openai.png" alt="OpenAI">OpenAI</span>
+                <span class="marquee-item"><img src="logos/snowflake.png" alt="Snowflake">Snowflake</span>
             </div>
-            <div class="tech-label" style="margin-top:16px">Platforms &amp; Infrastructure</div>
-            <div class="tech-pills">
-                <span>NVIDIA NIM</span><span>NVIDIA Jetson</span><span>DGX</span><span>DeepStream</span><span>TensorRT</span><span>RAPIDS</span><span>LangChain</span><span>RAG</span><span>GCP</span><span>AWS</span><span>Snowflake</span><span>Databricks</span>
+            <div class="marquee-inner" aria-hidden="true">
+                <span class="marquee-item"><img src="logos/claude.png" alt="Anthropic">Anthropic</span>
+                <span class="marquee-item"><img src="logos/aws.png" alt="AWS">AWS</span>
+                <span class="marquee-item"><img src="logos/databricks.png" alt="Databricks">Databricks</span>
+                <span class="marquee-item"><img src="logos/google.png" alt="Google">Google</span>
+                <span class="marquee-item"><img src="logos/meta.png" alt="Meta">Meta</span>
+                <span class="marquee-item"><img src="logos/mistral.png" alt="Mistral">Mistral</span>
+                <span class="marquee-item"><img src="logos/nvidia.png" alt="NVIDIA">NVIDIA</span>
+                <span class="marquee-item"><img src="logos/openai.png" alt="OpenAI">OpenAI</span>
+                <span class="marquee-item"><img src="logos/snowflake.png" alt="Snowflake">Snowflake</span>
             </div>
         </div>
     </div>
@@ -900,7 +980,7 @@
     </section>
 
     <!-- SMB CALLOUT -->
-    <section class="smb-callout">
+    <section class="smb-callout" id="enablement">
         <div class="container">
             <div class="smb-inner" data-reveal>
                 <div class="smb-content">
@@ -918,12 +998,13 @@
                 </div>
                 <div class="smb-side">
                     <div class="smb-tools">
-                        <div class="smb-tool"><span class="smb-tool-name">Claude Code</span><span class="smb-tool-tag">AI coding assistant</span></div>
-                        <div class="smb-tool"><span class="smb-tool-name">GitHub Copilot</span><span class="smb-tool-tag">Code completion</span></div>
-                        <div class="smb-tool"><span class="smb-tool-name">ChatGPT Enterprise</span><span class="smb-tool-tag">Team AI assistant</span></div>
-                        <div class="smb-tool"><span class="smb-tool-name">Cursor / Windsurf</span><span class="smb-tool-tag">AI-native IDE</span></div>
-                        <div class="smb-tool"><span class="smb-tool-name">Notion AI</span><span class="smb-tool-tag">Docs &amp; knowledge</span></div>
-                        <div class="smb-tool"><span class="smb-tool-name">Custom Agents</span><span class="smb-tool-tag">Your workflows</span></div>
+                        <div class="smb-tool"><img src="logos/claude.png" alt="Claude" class="smb-tool-icon"><span class="smb-tool-name">Claude Code</span><span class="smb-tool-tag">AI coding assistant</span></div>
+                        <div class="smb-tool"><img src="logos/github.png" alt="GitHub" class="smb-tool-icon"><span class="smb-tool-name">GitHub Copilot</span><span class="smb-tool-tag">Code completion</span></div>
+                        <div class="smb-tool"><img src="logos/openai.png" alt="OpenAI" class="smb-tool-icon"><span class="smb-tool-name">ChatGPT Enterprise</span><span class="smb-tool-tag">Team AI assistant</span></div>
+                        <div class="smb-tool"><img src="logos/cursor.png" alt="Cursor" class="smb-tool-icon"><span class="smb-tool-name">Cursor / Windsurf</span><span class="smb-tool-tag">AI-native IDE</span></div>
+                        <div class="smb-tool"><img src="logos/notion.png" alt="Notion" class="smb-tool-icon"><span class="smb-tool-name">Notion AI</span><span class="smb-tool-tag">Docs &amp; knowledge</span></div>
+                        <div class="smb-tool"><img src="logos/openclaw.png" alt="OpenClaw" class="smb-tool-icon"><span class="smb-tool-name">OpenClaw</span><span class="smb-tool-tag">Personal AI agent</span></div>
+                        <div class="smb-tool"><span class="smb-tool-icon" style="width:20px;height:20px;background:var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;">+</span><span class="smb-tool-name">Custom Agents</span><span class="smb-tool-tag">Your workflows</span></div>
                     </div>
                 </div>
             </div>
